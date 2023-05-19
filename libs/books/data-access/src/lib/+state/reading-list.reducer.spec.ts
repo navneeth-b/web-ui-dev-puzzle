@@ -51,6 +51,42 @@ describe('Books Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B', 'C']);
     });
+
+    it('confirmedMarkBookAsFinished should mark book as read', () => {
+      const bookId = 'test_id';
+      const readingListItem = createReadingListItem(bookId);
+      const updatedReadingListItem = {
+        finished: true,
+        finishedDate: (new Date()).toISOString(),
+        ...  readingListItem
+      };
+      const action = ReadingListActions.confirmedMarkBookAsFinished({
+        item: updatedReadingListItem
+      });
+
+      const result: State = reducer(state, action);
+      const updatedBook = result.entities[bookId];
+
+      expect(updatedBook).toMatchObject(updatedReadingListItem);
+    });
+
+    it('failedMarkBookAsFinished should not mark book as read', () => {
+      const bookId = 'test_id';
+      const readingListItem = createReadingListItem(bookId);
+      const updatedReadingListItem = {
+        finished: true,
+        finishedDate: (new Date()).toISOString(),
+        ...  readingListItem
+      };
+      const action = ReadingListActions.failedMarkBookAsFinished({
+        item: readingListItem
+      });
+
+      const result: State = reducer(state, action);
+      const updatedBook = result.entities[bookId];
+
+      expect(updatedBook).not.toMatchObject(updatedReadingListItem);
+    });
   });
 
   describe('unknown action', () => {
