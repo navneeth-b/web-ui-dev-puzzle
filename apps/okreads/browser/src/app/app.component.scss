@@ -21,6 +21,11 @@ h1 {
   button {
     padding: 0 $spacing-xs;
   }
+
+  a {
+    color: $white;
+    text-decoration: none;
+  }
 }
 
 .header--content {
